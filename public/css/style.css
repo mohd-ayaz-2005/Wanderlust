@@ -1,0 +1,280 @@
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal; */
+}
+
+.page-content,
+.container {
+  flex: 1;
+}
+
+/* Navbar */
+.navbar {
+  height: 5rem;
+  background-color: white;
+}
+
+.fa-compass {
+  color: #fe424d;
+  font-size: 2rem;
+}
+
+.nav-link {
+  color: #222222 !important;
+}
+
+/* Footer */
+.f-info-links a {
+  text-decoration: none;
+  color: #222222;
+}
+
+.f-info-links a:hover {
+  text-decoration: underline;
+}
+
+.f-info-links,
+.f-info-socials,
+.f-info-brand {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.f-info-socials i {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.f-info {
+  text-align: center;
+  height: 8rem;
+  background-color: #ebebeb;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: space-evenly;
+}
+
+/* Cards */
+.listing-card {
+  border: none !important;
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease;
+}
+
+.listing-card:hover {
+  transform: scale(1.01);
+}
+
+.card-img-top {
+  border-radius: 1rem !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+.card-body {
+  padding: 0 !important;
+}
+
+.card-text p {
+  font-weight: 400;
+}
+
+.listing-link {
+  text-decoration: none;
+}
+
+/* Card Effect */
+.card-img-overlay {
+  opacity: 0;
+}
+
+.card-img-overlay:hover {
+  opacity: 0.2;
+  background-color: white;
+}
+
+/* New Page */
+.add-btn {
+  background-color: #fe424d !important;
+  border: none !important;
+}
+
+/* Edit Page */
+.edit-btn {
+  background-color: #fe424d !important;
+  border: none !important;
+}
+
+/* Show Page */
+.show-img {
+  height: 30vh;
+}
+
+.btns {
+  display: flex;
+}
+
+.show-card {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Listing grid extras */
+.listing-location {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.listing-price {
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Sort pill bar */
+.sort-pill-bar {
+  background-color: #f9fafb;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  overflow-x: auto;
+}
+
+.sort-pill {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #4b5563;
+}
+
+.sort-pill:hover {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.sort-pill-active {
+  background-color: #111827;
+  color: #f9fafb;
+  border-color: #111827;
+}
+
+.mobile-bottom-actions,
+.mobile-action-btn,
+.mobile-sort-sheet,
+.mobile-sort-sheet.show,
+.mobile-sort-sheet-inner {
+  /* deprecated mobile-only sort UI — no styles */ 
+}
+
+@media (max-width: 576px) {
+  .sort-pill-bar {
+    padding-inline: 0.25rem;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    justify-content: flex-start;
+  }
+
+  .sort-pill {
+    font-size: 0.75rem;
+    padding-inline: 0.45rem;
+    flex: 0 0 auto;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .sort-pill-label {
+    display: none;
+  }
+
+  .sort-pill-text {
+    display: block;
+    font-size: 0.6rem;
+    margin-top: -0.1rem;
+  }
+}
+
+/* Auth layout */
+.auth-heading {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.auth-card {
+  border-radius: 1rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+/* Star rating input */
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 0.1rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 1.6rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #facc15;
+}
+
+/* Auth layout */
+.auth-heading {
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.auth-card {
+  border-radius: 1rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+/* Listing price display */
+.listing-price {
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Star rating input */
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 0.1rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 1.6rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #facc15;
+}

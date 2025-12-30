@@ -1,0 +1,155 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="mb-4">
+  <div class="d-flex flex-column gap-3">
+    <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2">
+      <div>
+        <h2 class="fw-bold mb-1">Explore unique stays</h2>
+        <p class="text-muted mb-0">Handpicked homes and experiences from around the world.</p>
+      </div>
+      <% if (currentUser) { %>
+      <a href="/listings/new" class="btn btn-dark add-btn mt-2 mt-md-0">
+        <i class="fa-solid fa-plus me-1"></i>
+        Add New Listing
+      </a>
+      <% } %>
+    </div>
+
+    <!-- One-line icon sort bar (works on web & mobile) -->
+    <form
+      method="get"
+      action="/listings"
+      class="d-flex flex-wrap align-items-center gap-2 sort-pill-bar mt-2"
+    >
+      <input type="hidden" name="page" value="1" />
+      <span class="text-muted small me-1 sort-pill-label">Sort:</span>
+
+      <button
+        type="submit"
+        name="sort"
+        value="new"
+        class="btn btn-sm sort-pill <%= sort === 'new' ? 'sort-pill-active' : '' %>"
+      >
+        <i class="fa-solid fa-fire-flame-curved me-1"></i>
+        <span class="sort-pill-text">New</span>
+      </button>
+
+      <button
+        type="submit"
+        name="sort"
+        value="old"
+        class="btn btn-sm sort-pill <%= sort === 'old' ? 'sort-pill-active' : '' %>"
+      >
+        <i class="fa-regular fa-clock me-1"></i>
+        <span class="sort-pill-text">Old</span>
+      </button>
+
+      <button
+        type="submit"
+        name="sort"
+        value="cost-asc"
+        class="btn btn-sm sort-pill <%= sort === 'cost-asc' ? 'sort-pill-active' : '' %>"
+      >
+        <i class="fa-solid fa-arrow-down-short-wide me-1"></i>
+        <span class="sort-pill-text">₹ Low</span>
+      </button>
+
+      <button
+        type="submit"
+        name="sort"
+        value="cost-desc"
+        class="btn btn-sm sort-pill <%= sort === 'cost-desc' ? 'sort-pill-active' : '' %>"
+      >
+        <i class="fa-solid fa-arrow-up-short-wide me-1"></i>
+        <span class="sort-pill-text">₹ High</span>
+      </button>
+
+      <button
+        type="submit"
+        name="sort"
+        value="rating-desc"
+        class="btn btn-sm sort-pill <%= sort === 'rating-desc' ? 'sort-pill-active' : '' %>"
+      >
+        <i class="fa-solid fa-star me-1"></i>
+        <span class="sort-pill-text">Rating ↑</span>
+      </button>
+
+      <button
+        type="submit"
+        name="sort"
+        value="rating-asc"
+        class="btn btn-sm sort-pill <%= sort === 'rating-asc' ? 'sort-pill-active' : '' %>"
+      >
+        <i class="fa-regular fa-star-half-stroke me-1"></i>
+        <span class="sort-pill-text">Rating ↓</span>
+      </button>
+    </form>
+  </div>
+</section>
+
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-4">
+    <% for (let listing of allListings) { %>
+  <div class="col">
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+      <div class="card listing-card">
+        <img
+          src="<%= (listing.images && listing.images.length && listing.images[0].url) ? listing.images[0].url : ((listing.image && listing.image.url) ? listing.image.url : listing.image) %>"
+          class="card-img-top"
+          alt="listing_image"
+          style="height: 18rem"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c';"
+        />
+
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <p class="card-text mb-1">
+            <b><%= listing.title %></b>
+          </p>
+          <p class="listing-location mb-1">
+            <%= listing.location %>, <%= listing.country %>
+          </p>
+          <p class="listing-price mb-0">
+            &#8377; <%= listing.price.toLocaleString('en-IN') %>
+            <span class="text-muted fw-normal">/ night</span>
+          </p>
+          <p class="listing-rating mb-0 mt-1">
+            <% if (listing.reviewCount && listing.reviewCount > 0) {
+                 const rounded = Math.round(listing.avgRating || 0);
+                 const stars = "★".repeat(rounded) + "☆".repeat(5 - rounded);
+            %>
+              <span class="text-warning"><%= stars %></span>
+              <span class="text-muted small">(<%= listing.reviewCount %>)</span>
+            <% } else { %>
+              <span class="text-muted small">No reviews yet</span>
+            <% } %>
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+  <% } %>
+</div>
+
+<% if (totalPages && totalPages > 1) { %>
+<nav aria-label="Listings pagination" class="mt-4">
+  <ul class="pagination justify-content-center">
+    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+      <a class="page-link" href="/listings?page=<%= currentPage - 1 %>&sort=<%= sort %>" tabindex="-1">
+        Previous
+      </a>
+    </li>
+
+    <% for (let p = 1; p <= totalPages; p++) { %>
+    <li class="page-item <%= p === currentPage ? 'active' : '' %>">
+      <a class="page-link" href="/listings?page=<%= p %>&sort=<%= sort %>"><%= p %></a>
+    </li>
+    <% } %>
+
+    <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+      <a class="page-link" href="/listings?page=<%= currentPage + 1 %>&sort=<%= sort %>">
+        Next
+      </a>
+    </li>
+  </ul>
+</nav>
+<% } %>
