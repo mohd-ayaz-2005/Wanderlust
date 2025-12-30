@@ -70,8 +70,12 @@ app.use((req, res, next) => {
 // next();
 // }
 
-app.get("/", (req, res) => {
-  res.send("Hi, I am root");
+// app.get("/", (req, res) => {
+//   res.send("Hi, I am root");
+// });
+
+router.get("/signup", (req, res) => {
+  res.render("users/signup.ejs");
 });
 
 app.get("/demouser", async (req, res) => {
