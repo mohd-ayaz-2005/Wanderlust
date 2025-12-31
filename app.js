@@ -96,14 +96,13 @@ const sessionStore = MongoStore.create({
 
 const sessionOptions = {
   store: sessionStore,
-  name: "session", // optional: change cookie name from default
-  secret: process.env.SESSION_SECRET,
+  name: "session",
+  secret: process.env.SESSION_SECRET || "renderfallbacksecret",
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    // secure: true, // enable only if using HTTPS
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
 
