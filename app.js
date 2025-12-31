@@ -112,24 +112,24 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport.use(
-//   new LocalStrategy(async (username, password, done) => {
-//     try {
-//       const user = await User.findOne({ username });
-//       if (!user) return done(null, false, { message: "Invalid username" });
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username });
+      if (!user) return done(null, false, { message: "Invalid username" });
 
-//       const result = await user.authenticate(password);
-//       if (!result.user)
-//         return done(null, false, { message: "Invalid password" });
+      const result = await user.authenticate(password);
+      if (!result.user)
+        return done(null, false, { message: "Invalid password" });
 
-//       return done(null, result.user);
-//     } catch (err) {
-//       return done(err);
-//     }
-//   })
-// );
+      return done(null, result.user);
+    } catch (err) {
+      return done(err);
+    }
+  })
+);
 
-passport.use(new LocalStrategy(User.authenticate()));
+//passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
