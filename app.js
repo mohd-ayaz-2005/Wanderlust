@@ -74,8 +74,8 @@ app.use((req, res, next) => {
 //   res.send("Hi, I am root");
 // });
 
-router.get("/signup", (req, res) => {
-  res.render("users/signup.ejs");
+app.get("/", (req, res) => {
+  res.redirect("/signup");
 });
 
 app.get("/demouser", async (req, res) => {
