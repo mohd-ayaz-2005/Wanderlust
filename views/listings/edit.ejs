@@ -32,14 +32,14 @@
       <div class="mb-3">
         <label for="photos" class="form-label">Photos (up to 5)</label>
         <input
-          id="photos"
-          name="photos"
-          type="file"
-          accept="image/*"
+          type="text"
+          name="listing[image][url]"
+          value="<%= listing.image?.url %>"
           class="form-control"
-          multiple
         />
-        <div class="form-text">Uploading new photos will replace the existing gallery.</div>
+        <div class="form-text">
+          Uploading new photos will replace the existing gallery.
+        </div>
       </div>
 
       <div class="row">

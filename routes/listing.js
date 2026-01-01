@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const path = require("path");
-const multer = require("multer");
-const upload = multer({ dest: path.join(__dirname, "..", "uploads/") });
+// const path = require("path");
+// const multer = require("multer");
+// const upload = multer({ dest: path.join(__dirname, "..", "uploads/") });
 
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listing = require("../Models/listing.js");
@@ -117,26 +117,38 @@ router.get(
 );
 
 //Create Route
+// router.post(
+//   "/",
+//   isLoggedIn,
+//   upload.array("photos", 5),
+//   wrapAsync(async (req, res) => {
+//     const listing = new Listing(req.body.listing);
+//     listing.owner = req.user._id;
+
+//     // build gallery images from uploaded files (max 5 by multer config)
+//     if (req.files && req.files.length > 0) {
+//       listing.images = req.files.map((f) => ({
+//         filename: f.filename,
+//         url: "/uploads/" + f.filename,
+//       }));
+//       // set main image from first photo if not provided manually
+//       if (!listing.image || !listing.image.url) {
+//         listing.image = listing.images[0];
+//       }
+//     }
+
+//     await listing.save();
+//     res.redirect("/listings");
+//   })
+// );
 router.post(
   "/",
   isLoggedIn,
-  upload.array("photos", 5),
   wrapAsync(async (req, res) => {
     const listing = new Listing(req.body.listing);
     listing.owner = req.user._id;
 
-    // build gallery images from uploaded files (max 5 by multer config)
-    if (req.files && req.files.length > 0) {
-      listing.images = req.files.map((f) => ({
-        filename: f.filename,
-        url: "/uploads/" + f.filename,
-      }));
-      // set main image from first photo if not provided manually
-      if (!listing.image || !listing.image.url) {
-        listing.image = listing.images[0];
-      }
-    }
-
+    // image URL already coming from form
     await listing.save();
     res.redirect("/listings");
   })
