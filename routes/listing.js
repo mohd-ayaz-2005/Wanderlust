@@ -76,7 +76,7 @@ router.get(
     const totalPages = Math.max(Math.ceil(totalCount / limit), 1);
 
     res.render("listings/index", {
-      listings, // ⭐ IMPORTANT
+      allListings: listings,
       currentPage: page,
       totalPages,
       sort: sortParam,
