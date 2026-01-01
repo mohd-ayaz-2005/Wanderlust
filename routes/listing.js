@@ -151,18 +151,26 @@ router.put(
   isLoggedIn,
   isListingOwner,
   wrapAsync(async (req, res) => {
-    let { id } = req.params;
-
     if (!req.body.listing) {
       throw new Error("Listing data missing");
     }
 
-    await Listing.findByIdAndUpdate(id, req.body.listing, {
-      new: true,
-      runValidators: true,
-    });
+    const listing = await Listing.findById(req.params.id);
 
-    res.redirect(`/listings/${id}`);
+    // update fields manually (SAFE)
+    listing.title = req.body.listing.title;
+    listing.description = req.body.listing.description;
+    listing.price = req.body.listing.price;
+    listing.country = req.body.listing.country;
+    listing.location = req.body.listing.location;
+
+    // 🔥 MOST IMPORTANT FIX
+    if (req.body.listing.image?.url) {
+      listing.image.url = req.body.listing.image.url;
+    }
+
+    await listing.save();
+    res.redirect(`/listings/${listing._id}`);
   })
 );
 
