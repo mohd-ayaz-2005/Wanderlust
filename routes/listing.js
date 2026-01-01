@@ -117,38 +117,17 @@ router.get(
 );
 
 //Create Route
-// router.post(
-//   "/",
-//   isLoggedIn,
-//   upload.array("photos", 5),
-//   wrapAsync(async (req, res) => {
-//     const listing = new Listing(req.body.listing);
-//     listing.owner = req.user._id;
-
-//     // build gallery images from uploaded files (max 5 by multer config)
-//     if (req.files && req.files.length > 0) {
-//       listing.images = req.files.map((f) => ({
-//         filename: f.filename,
-//         url: "/uploads/" + f.filename,
-//       }));
-//       // set main image from first photo if not provided manually
-//       if (!listing.image || !listing.image.url) {
-//         listing.image = listing.images[0];
-//       }
-//     }
-
-//     await listing.save();
-//     res.redirect("/listings");
-//   })
-// );
 router.post(
   "/",
   isLoggedIn,
   wrapAsync(async (req, res) => {
+    if (!req.body.listing) {
+      throw new Error("Listing data missing");
+    }
+
     const listing = new Listing(req.body.listing);
     listing.owner = req.user._id;
 
-    // image URL already coming from form
     await listing.save();
     res.redirect("/listings");
   })
@@ -169,37 +148,21 @@ router.get(
 //Update Route
 router.put(
   "/:id",
-  // validateListing,
   isLoggedIn,
   isListingOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    try {
-      const updatedListing = await Listing.findByIdAndUpdate(
-        id,
-        req.body.listing,
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
 
-      if (req.files && req.files.length > 0) {
-        updatedListing.images = req.files.map((f) => ({
-          filename: f.filename,
-          url: "/uploads/" + f.filename,
-        }));
-        if (!updatedListing.image || !updatedListing.image.url) {
-          updatedListing.image = updatedListing.images[0];
-        }
-        await updatedListing.save();
-      }
-
-      res.redirect(`/listings/${id}`);
-    } catch (err) {
-      console.log(err);
-      res.send("Error while updating listing");
+    if (!req.body.listing) {
+      throw new Error("Listing data missing");
     }
+
+    await Listing.findByIdAndUpdate(id, req.body.listing, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.redirect(`/listings/${id}`);
   })
 );
 

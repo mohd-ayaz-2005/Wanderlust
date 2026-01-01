@@ -3,10 +3,9 @@ const Schema = mongoose.Schema;
 const Review = require("./review.js");
 
 const imageSchema = new Schema({
-  filename: { type: String, default: "listingimage" },
   url: {
     type: String,
-    default: null,
+    required: true,
   },
 });
 
@@ -14,17 +13,23 @@ const listingSchema = new Schema(
   {
     title: { type: String, required: true },
     description: String,
-    // main/legacy image
-    image: imageSchema,
-    // gallery images (max 5 used in views)
-    images: [imageSchema],
+
+    image: {
+      url: {
+        type: String,
+        required: true,
+      },
+    },
+
     price: Number,
     location: String,
     country: String,
+
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+
     reviews: [
       {
         type: Schema.Types.ObjectId,
