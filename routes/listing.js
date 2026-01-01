@@ -76,7 +76,7 @@ router.get(
     const totalPages = Math.max(Math.ceil(totalCount / limit), 1);
 
     res.render("listings/index", {
-      allListings: listings,
+      listings, // ⭐ IMPORTANT
       currentPage: page,
       totalPages,
       sort: sortParam,
@@ -164,10 +164,14 @@ router.put(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     try {
-      const updatedListing = await Listing.findByIdAndUpdate(id, req.body.listing, {
-        new: true,
-        runValidators: true,
-      });
+      const updatedListing = await Listing.findByIdAndUpdate(
+        id,
+        req.body.listing,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
 
       if (req.files && req.files.length > 0) {
         updatedListing.images = req.files.map((f) => ({
