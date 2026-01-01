@@ -172,7 +172,6 @@ router.put(
   // validateListing,
   isLoggedIn,
   isListingOwner,
-  upload.array("photos", 5),
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     try {
