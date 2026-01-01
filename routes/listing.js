@@ -11,7 +11,7 @@ const isLoggedIn = require("../middleware/isLoggedIn.js");
 const { isListingOwner } = require("../middleware/permissions.js");
 // const ExpressError = require("../utils/ExpressError.js");
 
-//Index Route with pagination (6 per page) and sorting
+// Index Route with pagination + sorting (FIXED)
 router.get(
   "/",
   wrapAsync(async (req, res) => {
@@ -28,12 +28,6 @@ router.get(
       case "cost-desc":
         sortStage = { price: -1, createdAt: -1 };
         break;
-      case "rating-asc":
-        sortStage = { avgRating: 1, createdAt: -1 };
-        break;
-      case "rating-desc":
-        sortStage = { avgRating: -1, createdAt: -1 };
-        break;
       case "old":
         sortStage = { createdAt: 1 };
         break;
@@ -43,35 +37,13 @@ router.get(
         break;
     }
 
-    const [totalCount, listings] = await Promise.all([
-      Listing.countDocuments({}),
-      Listing.aggregate([
-        {
-          $lookup: {
-            from: "reviews",
-            localField: "reviews",
-            foreignField: "_id",
-            as: "reviews",
-          },
-        },
-        {
-          $addFields: {
-            reviewCount: { $size: "$reviews" },
-            avgRating: {
-              $cond: [
-                { $gt: [{ $size: "$reviews" }, 0] },
-                { $avg: "$reviews.rating" },
-                null,
-              ],
-            },
-          },
-        },
-        { $sort: sortStage },
-        { $skip: skip },
-        { $limit: limit },
-        { $project: { reviews: 0 } },
-      ]),
-    ]);
+    const totalCount = await Listing.countDocuments({});
+
+    const listings = await Listing.find({})
+      .sort(sortStage)
+      .skip(skip)
+      .limit(limit)
+      .lean(); // 🔥 VERY IMPORTANT
 
     const totalPages = Math.max(Math.ceil(totalCount / limit), 1);
 
