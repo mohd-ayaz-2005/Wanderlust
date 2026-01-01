@@ -2,10 +2,14 @@
 
 <section class="mb-4">
   <div class="d-flex flex-column gap-3">
-    <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2">
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2"
+    >
       <div>
         <h2 class="fw-bold mb-1">Explore unique stays</h2>
-        <p class="text-muted mb-0">Handpicked homes and experiences from around the world.</p>
+        <p class="text-muted mb-0">
+          Handpicked homes and experiences from around the world.
+        </p>
       </div>
       <% if (currentUser) { %>
       <a href="/listings/new" class="btn btn-dark add-btn mt-2 mt-md-0">
@@ -88,7 +92,7 @@
 </section>
 
 <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-4">
-    <% for (let listing of allListings) { %>
+  <% for (let listing of listings) { %>
   <div class="col">
     <a href="/listings/<%= listing._id %>" class="listing-link">
       <div class="card listing-card">
@@ -113,14 +117,13 @@
             <span class="text-muted fw-normal">/ night</span>
           </p>
           <p class="listing-rating mb-0 mt-1">
-            <% if (listing.reviewCount && listing.reviewCount > 0) {
-                 const rounded = Math.round(listing.avgRating || 0);
-                 const stars = "★".repeat(rounded) + "☆".repeat(5 - rounded);
-            %>
-              <span class="text-warning"><%= stars %></span>
-              <span class="text-muted small">(<%= listing.reviewCount %>)</span>
+            <% if (listing.reviewCount && listing.reviewCount > 0) { const
+            rounded = Math.round(listing.avgRating || 0); const stars =
+            "★".repeat(rounded) + "☆".repeat(5 - rounded); %>
+            <span class="text-warning"><%= stars %></span>
+            <span class="text-muted small">(<%= listing.reviewCount %>)</span>
             <% } else { %>
-              <span class="text-muted small">No reviews yet</span>
+            <span class="text-muted small">No reviews yet</span>
             <% } %>
           </p>
         </div>
@@ -134,19 +137,28 @@
 <nav aria-label="Listings pagination" class="mt-4">
   <ul class="pagination justify-content-center">
     <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-      <a class="page-link" href="/listings?page=<%= currentPage - 1 %>&sort=<%= sort %>" tabindex="-1">
+      <a
+        class="page-link"
+        href="/listings?page=<%= currentPage - 1 %>&sort=<%= sort %>"
+        tabindex="-1"
+      >
         Previous
       </a>
     </li>
 
     <% for (let p = 1; p <= totalPages; p++) { %>
     <li class="page-item <%= p === currentPage ? 'active' : '' %>">
-      <a class="page-link" href="/listings?page=<%= p %>&sort=<%= sort %>"><%= p %></a>
+      <a class="page-link" href="/listings?page=<%= p %>&sort=<%= sort %>"
+        ><%= p %></a
+      >
     </li>
     <% } %>
 
     <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
-      <a class="page-link" href="/listings?page=<%= currentPage + 1 %>&sort=<%= sort %>">
+      <a
+        class="page-link"
+        href="/listings?page=<%= currentPage + 1 %>&sort=<%= sort %>"
+      >
         Next
       </a>
     </li>
