@@ -4,6 +4,8 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 
+app.use(express.urlencoded({ extended: true }));
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
